@@ -1,0 +1,11 @@
+# Mac
+.DS_Store
+
+dependency-reduced-pom.xml
+ruscorpora.model.bin
+**/.idea/*
+**/.idea/*
+**/target/*
+*.iml
+*.project
+*.prefs
