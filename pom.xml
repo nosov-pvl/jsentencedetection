@@ -36,6 +36,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>project-common</id>
+            <name>Project common</name>
+            <url>file://${project.basedir}/libs</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
@@ -52,6 +57,24 @@
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>jsc</groupId>
+            <artifactId>jsc</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jsc.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>jmorphy2</groupId>
+            <artifactId>jmorphy2-dev</artifactId>
+            <version>0.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jmorphy2-core-0.2-dev.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.pff</groupId>
+            <artifactId>java-libpst</artifactId>
+            <version>0.8.1</version>
+        </dependency>
         <dependency> <!-- Spark dependency -->
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.10</artifactId>
