@@ -82,6 +82,8 @@ public class JSentenceDetection extends DetectionBase<String> {
             list.removeAll(Collections.singleton(null));
         }
         dataLis.removeAll(Collections.singleton(null));
+        dataLis = dataLis.stream().filter(x->!x.isEmpty()).collect(Collectors.toList());
+
 
         List<JavaRDD<INDArray>> dataList = dataLis.stream().map(x -> sc.parallelize(x)).collect(Collectors.toList());
 
@@ -100,6 +102,10 @@ public class JSentenceDetection extends DetectionBase<String> {
         List<INDArray> dataVectorsList = dataList.stream().map(x -> x.reduce((a,b) -> a.add(b))).collect(Collectors.toList());
         JavaRDD<INDArray> dataVectors = sc.parallelize(dataVectorsList);
 
+        if(valueList.isEmpty()){
+            return true;
+        }
+
         INDArray valueVector = valueList.reduce((x,y) -> x.add(y));
 
 
@@ -109,6 +115,10 @@ public class JSentenceDetection extends DetectionBase<String> {
 
         List<Double> test1 = dataSample.collect();
         List<Double> test2 = valueSample.collect();
+
+        if(test1.size() < 3 || test2.size() < 3){
+            return true;
+        }
 
         SmirnovTest test = new SmirnovTest(dataSample.collect().stream().mapToDouble(x->x).toArray(),
                 valueSample.collect().stream().mapToDouble(x->x).toArray());
