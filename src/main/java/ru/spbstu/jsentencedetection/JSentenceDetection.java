@@ -17,9 +17,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
-/**
- * Created by pavel1 on 17.10.16.
- */
 public class JSentenceDetection extends DetectionBase<String> {
 
     private WordVectors model;
