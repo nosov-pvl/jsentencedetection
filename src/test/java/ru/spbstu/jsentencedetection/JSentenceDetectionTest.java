@@ -55,7 +55,7 @@ public class JSentenceDetectionTest {
         }
         s.close();
 
-        JSentenceDetection detector = new JSentenceDetection("english", "GoogleNews-vectors-negative300.bin");
+        JSentenceDetection detector = new JSentenceDetection("english", "GoogleNews-vectors-negative300.bin.gz");
         assertFalse(detector.detect(list, "Coffee may save your liver from bad binge-drinking habits: 14 percent lower chance of cancer with each cup"));
         assertTrue(detector.detect(list, "Energy Giants Turn to Drones and Sensors in New Embrace of the Digital World"));
         try {

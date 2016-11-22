@@ -33,16 +33,20 @@ public class PSTDetectionTest {
 
         List<Message> messages = loader.getMessages();
 
+        int count_success = 0;
         for(Message m : messages) {
 
             if(!detector.detect(Arrays.asList(m.getBody().split("[.]")), m.getSubject())){
                 logger.info("Passed " + m.getSubject());
+                ++count_success;
             }
             else{
                 logger.error("Failed " + m.getSubject());
                 //logger.error(m.getBody());
             }
         }
+
+        logger.info("" + count_success + "/" + messages.size() + " correct messages");
 
         try {
             detector.close();
