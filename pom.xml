@@ -60,6 +60,7 @@
         <dependency>
             <groupId>jsc</groupId>
             <artifactId>jsc</artifactId>
+            <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/jsc.jar</systemPath>
         </dependency>
