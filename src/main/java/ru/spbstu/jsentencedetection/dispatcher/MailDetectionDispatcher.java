@@ -47,6 +47,30 @@ public class MailDetectionDispatcher implements DetectionDispatcher {
         return verdicts;
     }
 
+    @Override
+    public List<String> detectSubject(String filename, List<String> subjects) {
+        if (!messagesLoader.load(filename)) {
+            return null;
+        }
+
+        List<Message> messages = messagesLoader.getMessages();
+
+        List<String> verdicts = new ArrayList<>();
+
+        for(Message message : messages)
+        {
+            for(String subject:subjects)
+            {
+                if(sentenceDetector.detect(Arrays.asList(message.getBody().split("\\.")), subject))
+                {
+                    String tmpStr = "Detected: \n" +  message.getBody() + "\n\n" +  "Subject: " + subject;
+                    verdicts.add(tmpStr);
+                }
+            }
+        }
+        return verdicts;
+    }
+
 //     temporary method while Spark problem not solved
     public void closeContext() {
         try {
