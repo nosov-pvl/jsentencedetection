@@ -1,6 +1,8 @@
 package ru.spbstu.jsentencedetection.dispatcher;
 
+import org.apache.log4j.Logger;
 import ru.spbstu.jsentencedetection.JSentenceDetection;
+import ru.spbstu.jsentencedetection.TextPreprocessor;
 import ru.spbstu.jsentencedetection.loaders.Message;
 import ru.spbstu.jsentencedetection.loaders.MessagesLoader;
 
@@ -10,11 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MailDetectionDispatcher implements DetectionDispatcher {
+    private final static Logger logger = Logger.getLogger(MailDetectionDispatcher.class);
+
     private final MessagesLoader messagesLoader;
     private JSentenceDetection sentenceDetector;
+    private TextPreprocessor preprocessor;
 
     public MailDetectionDispatcher(MessagesLoader messagesLoader) {
         this.messagesLoader = messagesLoader;
+        preprocessor = new TextPreprocessor();
 
 //        TODO: SparkContext here?
 
@@ -31,7 +37,11 @@ public class MailDetectionDispatcher implements DetectionDispatcher {
 
         List<Boolean> verdicts = new ArrayList<>();
         for (Message message : messages) {
-            verdicts.add(sentenceDetector.detect(Arrays.asList(message.getBody().split("\\.")), message.getSubject()));
+            logger.debug(message.getBody());
+            String body = preprocessor.preprocess(message.getBody());
+            logger.debug(body);
+
+            verdicts.add(sentenceDetector.detect(Arrays.asList(body.split("[.\n]+")), message.getSubject()));
         }
 
         return verdicts;
