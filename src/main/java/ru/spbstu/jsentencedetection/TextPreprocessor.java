@@ -21,7 +21,8 @@ public class TextPreprocessor {
     private final Pattern wordPattern = Pattern.compile(SPLIT_PARTS_REGEX);
 
     public String preprocess(String str) {
-        List<String> words = Arrays.asList(str.split("\\s"));
+        str = replaceSmartCharacters(str);
+        List<String> words = Arrays.asList(str.split("\\s+"));
 
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < words.size(); ++i) {
@@ -54,6 +55,21 @@ public class TextPreprocessor {
         }
 
         return i;
+    }
+
+    private String replaceSmartCharacters(String str) {
+        str = str.replace( (char)145, '\'');
+        str = str.replace( (char)8216, '\''); // left single quote
+        str = str.replace( (char)146, '\'');
+        str = str.replace( (char)8217, '\''); // right single quote
+        str = str.replace( (char)147, '\"');
+        str = str.replace( (char)148, '\"');
+        str = str.replace( (char)8220, '\"'); // left double
+        str = str.replace( (char)8221, '\"'); // right double
+        str = str.replace( (char)8211, '-' ); // dash ?
+        str = str.replace( (char)150, '-' );
+
+        return str;
     }
 
     private String extractWord(String word) {

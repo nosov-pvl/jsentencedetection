@@ -13,13 +13,35 @@ public class TextPreprocessorTest {
     @Test
     public void testPunctuationPreprocessor() throws IOException {
         String str = "\tIs this test checking punctuation? Test, for, checking punctuation... " +
-                "Punctuation & checking - test\n Also, carriage\n return.";
+                "Punctuation & checking - test.";
 
         TextPreprocessor preprocessor = new TextPreprocessor();
         String res = preprocessor.preprocess(str);
         String expecting = "Is this test checking punctuation. Test for checking punctuation. " +
-                "Punctuation checking test Also carriage return.";
+                "Punctuation checking test.";
 
+        assertEquals(expecting, res);
+    }
+
+    @Test
+    public void testLineBreak() throws IOException {
+        String str = "This\nis\nline\nbreak\ntest";
+
+        TextPreprocessor preprocessor = new TextPreprocessor();
+        String res = preprocessor.preprocess(str);
+
+        String expecting = "This is line break test";
+        assertEquals(expecting, res);
+    }
+
+    @Test
+    public void testWindowsLineBreak() throws IOException {
+        String str = "This\n\ris\n\rwindows\n\rline\n\rbreak";
+
+        TextPreprocessor preprocessor = new TextPreprocessor();
+        String res = preprocessor.preprocess(str);
+
+        String expecting = "This is windows line break";
         assertEquals(expecting, res);
     }
 
@@ -124,6 +146,28 @@ public class TextPreprocessorTest {
         TextPreprocessor preprocessor = new TextPreprocessor();
         String res = preprocessor.preprocess(str);
         String expecting = "This text contains sentence in brackets but not image. Sentence in brackets";
+
+        assertEquals(expecting, res);
+    }
+
+    @Test
+    public void testParentheses() {
+        String str = "This text contains sentence in parentheses. (Sentence in parentheses)";
+
+        TextPreprocessor preprocessor = new TextPreprocessor();
+        String res = preprocessor.preprocess(str);
+        String expecting = "This text contains sentence in parentheses. Sentence in parentheses";
+
+        assertEquals(expecting, res);
+    }
+
+    @Test
+    public void testStrangeParentheses() {
+        String str = "This text contains sentence in parentheses. (Sentence in parentheses)";
+
+        TextPreprocessor preprocessor = new TextPreprocessor();
+        String res = preprocessor.preprocess(str);
+        String expecting = "This text contains sentence in parentheses. Sentence in parentheses";
 
         assertEquals(expecting, res);
     }
